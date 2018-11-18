@@ -5,6 +5,9 @@ from PIL.ExifTags import TAGS
 
 
 def get_exif(vFileName):
+    """
+    Function return all EXIF Tags from file
+    """
     ret = {}
     i = Image.open(vFileName)
     info = i._getexif()
@@ -15,9 +18,17 @@ def get_exif(vFileName):
 
 
 def moveFile(vFileName):
+    """
+    Function move file in dirrectory by date in image date create
+    """
     print(get_exif(vFileName))
 
+
 def findAllFileInDirectory(pDir):
+    """
+    Function find all jpeg file in dirrectory
+    After finding file call function moveFile to move
+    """
     for vCurDir, vSubDirs, vFiles in os.walk(pDir):
         print(f'Current dir - {vCurDir}')
         for vCurrentFile in vFiles:
