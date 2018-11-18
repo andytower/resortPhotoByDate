@@ -22,7 +22,7 @@ def moveFile(vFileName):
     Function move file in directory by date in image date create
     """
     vDatePhoto = get_exif(vFileName)['DateTimeOriginal'].split(' ')[0].split(':')
-    vNewFileName = os.path.join(os.getcwd(),'sort', f'{vDatePhoto[0]}{vDatePhoto[1]}', os.path.split(vFileName)[1])
+    vNewFileName = os.path.join(os.getcwd(),'resort', f'{vDatePhoto[0]}{vDatePhoto[1]}', os.path.split(vFileName)[1])
     print(vNewFileName)
 
 
