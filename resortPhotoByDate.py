@@ -19,14 +19,16 @@ def get_exif(vFileName):
 
 def moveFile(vFileName):
     """
-    Function move file in dirrectory by date in image date create
+    Function move file in directory by date in image date create
     """
-    print(get_exif(vFileName))
+    vDatePhoto = get_exif(vFileName)['DateTimeOriginal'].split(' ')[0].split(':')
+    vNewFileName = os.path.join(os.getcwd(),'sort', f'{vDatePhoto[0]}{vDatePhoto[1]}', os.path.split(vFileName)[1])
+    print(vNewFileName)
 
 
 def findAllFileInDirectory(pDir):
     """
-    Function find all jpeg file in dirrectory
+    Function find all jpeg file in directory
     After finding file call function moveFile to move
     """
     for vCurDir, vSubDirs, vFiles in os.walk(pDir):
