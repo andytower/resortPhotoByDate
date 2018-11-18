@@ -1,6 +1,5 @@
 import os
 import mimetypes
-# import sys
 
 
 def findAllFileInDirectory(pDir):
@@ -8,7 +7,8 @@ def findAllFileInDirectory(pDir):
         print(f'Current dir - {vCurDir}')
         for vCurrentFile in vFiles:
             print(f'Current file - {vCurrentFile}')
-            print(mimetypes.guess_type(f'{os.path.join(vCurDir,vCurrentFile)}'))
+            if mimetypes.guess_type(f'{os.path.join(vCurDir,vCurrentFile)}')[0].split('/')[1] == 'jpeg':
+                print('This is jpeg')
         for vCurrentSubDir in vSubDirs:
             findAllFileInDirectory(vCurrentSubDir)
 
