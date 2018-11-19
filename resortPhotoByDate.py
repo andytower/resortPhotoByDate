@@ -38,6 +38,22 @@ def moveFile(pFileName):
                 print(f'Copy file - {vNewFileName}')
 
 
+def copyOtherFiles(pFileName):
+    """
+    Function copy no thoto file in directory resort/others
+    """
+    vDirName = os.path.join(os.getcwd(),'resort', 'others')
+    if not os.path.exists(vDirName):
+        os.mkdir(vDirName)
+    vNewFileName = os.path.split(pFileName)[1]
+    if not os.path.exists(os.path.join(vDirName,vNewFileName)):
+        with open(pFileName,'rb') as fSource:
+            with open(os.path.join(vDirName,vNewFileName),'wb') as fDist:
+                fDist.write(fSource.read())
+                print(f'Copy file - {vNewFileName}')
+
+
+
 def findAllFileInDirectory(pDir):
     """
     Function find all jpeg file in directory
@@ -50,7 +66,10 @@ def findAllFileInDirectory(pDir):
             try:
                 if mimetypes.guess_type(f'{os.path.join(vCurDir,vCurrentFile)}')[0].split('/')[1] == 'jpeg':
                     moveFile(os.path.join(vCurDir, vCurrentFile))
+                else:
+                    copyOtherFiles(os.path.join(vCurDir, vCurrentFile))
             except:
+                copyOtherFiles(os.path.join(vCurDir, vCurrentFile))
                 continue
         for vCurrentSubDir in vSubDirs:
             findAllFileInDirectory(vCurrentSubDir)
