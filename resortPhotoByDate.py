@@ -47,8 +47,11 @@ def findAllFileInDirectory(pDir):
         print(f'Current dir - {vCurDir}')
         for vCurrentFile in vFiles:
             print(f'Current file - {vCurrentFile}')
-            if mimetypes.guess_type(f'{os.path.join(vCurDir,vCurrentFile)}')[0].split('/')[1] == 'jpeg':
-                moveFile(os.path.join(vCurDir, vCurrentFile))
+            try:
+                if mimetypes.guess_type(f'{os.path.join(vCurDir,vCurrentFile)}')[0].split('/')[1] == 'jpeg':
+                    moveFile(os.path.join(vCurDir, vCurrentFile))
+            except:
+                continue
         for vCurrentSubDir in vSubDirs:
             findAllFileInDirectory(vCurrentSubDir)
 
