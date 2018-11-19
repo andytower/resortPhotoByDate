@@ -24,9 +24,9 @@ def moveFile(pFileName):
     """
     try:
         vDatePhoto = get_exif(pFileName)['DateTimeOriginal'].split(' ')[0].split(':')
+        vDirName = os.path.join(os.getcwd(),'resort', f'{vDatePhoto[0]}{vDatePhoto[1]}')
     except:
-        return
-    vDirName = os.path.join(os.getcwd(),'resort', f'{vDatePhoto[0]}{vDatePhoto[1]}')
+        vDirName = os.path.join(os.getcwd(),'resort', 'nodate')
     if not os.path.exists(vDirName):
         os.mkdir(vDirName)
         print(f'Create directory - {vDirName}')
