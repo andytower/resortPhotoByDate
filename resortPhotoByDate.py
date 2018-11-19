@@ -28,7 +28,11 @@ def moveFile(pFileName):
         os.mkdir(vDirName)
         print(f'Create directory - {vDirName}')
     vNewFileName = os.path.split(pFileName)[1]
-    print(vNewFileName)
+    if not os.path.exists(os.path.join(vDirName,vNewFileName)):
+        with open(pFileName,'rb') as fSource:
+            with open(os.path.join(vDirName,vNewFileName),'wb') as fDist:
+                fDist.write(fSource.read())
+                print(f'Copy file - {vNewFileName}')
 
 
 def findAllFileInDirectory(pDir):
