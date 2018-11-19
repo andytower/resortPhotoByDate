@@ -17,12 +17,17 @@ def get_exif(vFileName):
     return ret
 
 
-def moveFile(vFileName):
+def moveFile(pFileName):
     """
     Function move file in directory by date in image date create
+    If dyrectory not exists it's created
     """
-    vDatePhoto = get_exif(vFileName)['DateTimeOriginal'].split(' ')[0].split(':')
-    vNewFileName = os.path.join(os.getcwd(),'resort', f'{vDatePhoto[0]}{vDatePhoto[1]}', os.path.split(vFileName)[1])
+    vDatePhoto = get_exif(pFileName)['DateTimeOriginal'].split(' ')[0].split(':')
+    vDirName = os.path.join(os.getcwd(),'resort', f'{vDatePhoto[0]}{vDatePhoto[1]}')
+    if not os.path.exists(vDirName):
+        os.mkdir(vDirName)
+        print(f'Create directory - {vDirName}')
+    vNewFileName = os.path.split(pFileName)[1]
     print(vNewFileName)
 
 
