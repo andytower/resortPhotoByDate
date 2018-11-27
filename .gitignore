@@ -1,7 +1,8 @@
 # vim ignore
 #
 *.swp
-
+# PyCharm
+.idea
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
