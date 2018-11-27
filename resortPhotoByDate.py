@@ -4,12 +4,12 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 
 
-def get_exif(vFileName):
+def get_exif(p_file_name):
     """
     Function return all EXIF Tags from file
     """
     ret = {}
-    i = Image.open(vFileName)
+    i = Image.open(p_file_name)
     info = i._getexif()
     for tag, value in info.items():
         decoded = TAGS.get(tag, tag)
@@ -17,44 +17,43 @@ def get_exif(vFileName):
     return ret
 
 
-def moveFile(pFileName):
+def move_file(p_file_name):
     """
     Function move file in directory by date in image date create
-    If dyrectory not exists it's created
+    If directory not exists it's created
     """
     try:
-        vDatePhoto = get_exif(pFileName)['DateTimeOriginal'].split(' ')[0].split(':')
-        vDirName = os.path.join(os.getcwd(),'resort', f'{vDatePhoto[0]}{vDatePhoto[1]}')
+        v_date_photo = get_exif(p_file_name)['DateTimeOriginal'].split(' ')[0].split(':')
+        v_dir_name = os.path.join(os.getcwd(),'resort', f'{v_date_photo[0]}{v_date_photo[1]}')
     except:
-        vDirName = os.path.join(os.getcwd(),'resort', 'nodate')
-    if not os.path.exists(vDirName):
-        os.mkdir(vDirName)
-        print(f'Create directory - {vDirName}')
-    vNewFileName = os.path.split(pFileName)[1]
-    if not os.path.exists(os.path.join(vDirName,vNewFileName)):
-        with open(pFileName,'rb') as fSource:
-            with open(os.path.join(vDirName,vNewFileName),'wb') as fDist:
+        v_dir_name = os.path.join(os.getcwd(),'resort', 'nodate')
+    if not os.path.exists(v_dir_name):
+        os.mkdir(v_dir_name)
+        print(f'Create directory - {v_dir_name}')
+    v_new_file_name = os.path.split(p_file_name)[1]
+    if not os.path.exists(os.path.join(v_dir_name, v_new_file_name)):
+        with open(p_file_name, 'rb') as fSource:
+            with open(os.path.join(v_dir_name, v_new_file_name), 'wb') as fDist:
                 fDist.write(fSource.read())
-                print(f'Copy file - {vNewFileName}')
+                print(f'Copy file - {v_new_file_name}')
 
 
-def copyOtherFiles(pFileName):
+def copy_other_files(pFileName):
     """
-    Function copy no thoto file in directory resort/others
+    Function copy no photo file in directory resort/others
     """
-    vDirName = os.path.join(os.getcwd(),'resort', 'others')
-    if not os.path.exists(vDirName):
-        os.mkdir(vDirName)
-    vNewFileName = os.path.split(pFileName)[1]
-    if not os.path.exists(os.path.join(vDirName,vNewFileName)):
-        with open(pFileName,'rb') as fSource:
-            with open(os.path.join(vDirName,vNewFileName),'wb') as fDist:
+    v_dir_name = os.path.join(os.getcwd(),'resort', 'others')
+    if not os.path.exists(v_dir_name):
+        os.mkdir(v_dir_name)
+    v_new_file_name = os.path.split(pFileName)[1]
+    if not os.path.exists(os.path.join(v_dir_name, v_new_file_name)):
+        with open(pFileName, 'rb') as fSource:
+            with open(os.path.join(v_dir_name, v_new_file_name), 'wb') as fDist:
                 fDist.write(fSource.read())
-                print(f'Copy file - {vNewFileName}')
+                print(f'Copy file - {v_new_file_name}')
 
 
-
-def findAllFileInDirectory(pDir):
+def find_all_file_in_directory(pDir):
     """
     Function find all jpeg file in directory
     After finding file call function moveFile to move
@@ -65,15 +64,15 @@ def findAllFileInDirectory(pDir):
             print(f'Current file - {vCurrentFile}')
             try:
                 if mimetypes.guess_type(f'{os.path.join(vCurDir,vCurrentFile)}')[0].split('/')[1] == 'jpeg':
-                    moveFile(os.path.join(vCurDir, vCurrentFile))
+                    move_file(os.path.join(vCurDir, vCurrentFile))
                 else:
-                    copyOtherFiles(os.path.join(vCurDir, vCurrentFile))
+                    copy_other_files(os.path.join(vCurDir, vCurrentFile))
             except:
-                copyOtherFiles(os.path.join(vCurDir, vCurrentFile))
+                copy_other_files(os.path.join(vCurDir, vCurrentFile))
                 continue
         for vCurrentSubDir in vSubDirs:
-            findAllFileInDirectory(vCurrentSubDir)
+            find_all_file_in_directory(vCurrentSubDir)
 
 
 if __name__ == '__main__':
-    findAllFileInDirectory(os.path.join(os.getcwd(), 'unsort'))
+    find_all_file_in_directory(os.path.join(os.getcwd(), 'unsort'))
