@@ -24,9 +24,9 @@ def move_file(p_file_name):
     """
     try:
         v_date_photo = get_exif(p_file_name)['DateTimeOriginal'].split(' ')[0].split(':')
-        v_dir_name = os.path.join(os.getcwd(),'resort', f'{v_date_photo[0]}{v_date_photo[1]}')
+        v_dir_name = os.path.join(os.getcwd(), 'resort', f'{v_date_photo[0]}{v_date_photo[1]}')
     except:
-        v_dir_name = os.path.join(os.getcwd(),'resort', 'nodate')
+        v_dir_name = os.path.join(os.getcwd(), 'resort', 'nodate')
     if not os.path.exists(v_dir_name):
         os.mkdir(v_dir_name)
         print(f'Create directory - {v_dir_name}')
@@ -38,40 +38,40 @@ def move_file(p_file_name):
                 print(f'Copy file - {v_new_file_name}')
 
 
-def copy_other_files(pFileName):
+def copy_other_files(p_file_name):
     """
     Function copy no photo file in directory resort/others
     """
-    v_dir_name = os.path.join(os.getcwd(),'resort', 'others')
+    v_dir_name = os.path.join(os.getcwd(), 'resort', 'others')
     if not os.path.exists(v_dir_name):
         os.mkdir(v_dir_name)
-    v_new_file_name = os.path.split(pFileName)[1]
+    v_new_file_name = os.path.split(p_file_name)[1]
     if not os.path.exists(os.path.join(v_dir_name, v_new_file_name)):
-        with open(pFileName, 'rb') as fSource:
+        with open(p_file_name, 'rb') as fSource:
             with open(os.path.join(v_dir_name, v_new_file_name), 'wb') as fDist:
                 fDist.write(fSource.read())
                 print(f'Copy file - {v_new_file_name}')
 
 
-def find_all_file_in_directory(pDir):
+def find_all_file_in_directory(p_dir):
     """
     Function find all jpeg file in directory
     After finding file call function moveFile to move
     """
-    for vCurDir, vSubDirs, vFiles in os.walk(pDir):
-        print(f'Current dir - {vCurDir}')
-        for vCurrentFile in vFiles:
-            print(f'Current file - {vCurrentFile}')
+    for v_cur_dir, v_sub_dirs, v_files in os.walk(p_dir):
+        print(f'Current dir - {v_cur_dir}')
+        for v_current_file in v_files:
+            print(f'Current file - {v_current_file}')
             try:
-                if mimetypes.guess_type(f'{os.path.join(vCurDir,vCurrentFile)}')[0].split('/')[1] == 'jpeg':
-                    move_file(os.path.join(vCurDir, vCurrentFile))
+                if mimetypes.guess_type(f'{os.path.join(v_cur_dir, v_current_file)}')[0].split('/')[1] == 'jpeg':
+                    move_file(os.path.join(v_cur_dir, v_current_file))
                 else:
-                    copy_other_files(os.path.join(vCurDir, vCurrentFile))
+                    copy_other_files(os.path.join(v_cur_dir, v_current_file))
             except:
-                copy_other_files(os.path.join(vCurDir, vCurrentFile))
+                copy_other_files(os.path.join(v_cur_dir, v_current_file))
                 continue
-        for vCurrentSubDir in vSubDirs:
-            find_all_file_in_directory(vCurrentSubDir)
+        for v_current_sub_dir in v_sub_dirs:
+            find_all_file_in_directory(v_current_sub_dir)
 
 
 if __name__ == '__main__':
